@@ -33,7 +33,7 @@ export function exportPlatformBundle(
       "Exception Path Handling": fixed["Exception Path Handling"],
     },
     platform_metrics: fixed.platform_metrics,
-    testable_dashboard: dashboard,
+    "testable_dashboard.json": dashboard,
   };
 
   for (const [name, payload] of Object.entries(files)) {
