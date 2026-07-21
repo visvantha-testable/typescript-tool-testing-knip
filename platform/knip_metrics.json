@@ -1,13 +1,13 @@
 {
-  "exception_paths_total": 29,
-  "exception_paths_covered": 29,
+  "exception_paths_total": 72,
+  "exception_paths_covered": 72,
   "error_flow_verification_percent": 100,
-  "branch_total": 29,
-  "branch_covered": 29,
+  "branch_total": 72,
+  "branch_covered": 72,
   "knip_issue_count": 0,
   "knip_files_analyzed": 2,
   "try_catch_blocks": 4,
-  "recovery_paths_verified": 29,
+  "recovery_paths_verified": 72,
   "dashboard_export": {
     "tool": "knip",
     "strategy": "Control Flow Testing",
@@ -28,14 +28,14 @@
         "raw_sources_present": true,
         "knip_native": true,
         "raw_parameters": {
-          "exception_paths_total": 29,
-          "exception_paths_covered": 2900,
+          "exception_paths_total": 72,
+          "exception_paths_covered": 7200,
           "error_flow_verification_percent": 100,
-          "branch_total": 29,
-          "branch_covered": 2900,
+          "branch_total": 72,
+          "branch_covered": 7200,
           "knip_issue_count": 0,
           "try_catch_blocks": 4,
-          "recovery_paths_verified": 2900
+          "recovery_paths_verified": 7200
         },
         "formula": "try/catch paths exercised via vitest + knip confirms no unresolved error-flow dead code"
       }

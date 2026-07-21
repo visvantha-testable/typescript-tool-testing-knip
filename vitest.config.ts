@@ -7,7 +7,7 @@ export default defineConfig({
       provider: "v8",
       include: ["sample_subject/src/**/*.ts"],
       exclude: ["sample_subject/src/index.ts"],
-      reporter: ["json-summary", "json"],
+      reporter: ["json-summary", "json", "lcov", "html"],
       reportsDirectory: "artifacts/training/coverage",
       all: true,
     },
