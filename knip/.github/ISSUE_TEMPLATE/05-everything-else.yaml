@@ -1,0 +1,14 @@
+name: 🧩 Everything Else
+description: Discuss anything related to Knip
+title: '🧩 '
+labels: ['discussion']
+body:
+  - type: markdown
+    attributes:
+      value: Feel free to discuss something related to Knip that does not fit the other categories.
+  - type: textarea
+    id: description
+    attributes:
+      label: Discuss anything related to Knip
+    validations:
+      required: true

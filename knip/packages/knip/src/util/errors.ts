@@ -1,0 +1,45 @@
+import { core } from 'zod/mini';
+
+const isZodErrorLike = (error: unknown): error is core.$ZodError<any> => error instanceof core.$ZodError;
+
+interface ErrorWithCause extends Error {
+  cause: Error;
+}
+
+export class ConfigurationError extends Error {}
+
+export class LoaderError extends Error {}
+
+export const isKnownError = (error: Error) =>
+  error instanceof ConfigurationError || error instanceof LoaderError || isZodErrorLike(error);
+
+export const hasErrorCause = (error: Error): error is ErrorWithCause =>
+  !isZodErrorLike(error) && error.cause instanceof Error;
+
+export const isConfigurationError = (error: Error) => error instanceof ConfigurationError;
+
+export const isModuleNotFoundError = (error: Error): boolean => 'code' in error && error.code === 'MODULE_NOT_FOUND';
+
+export const isLoaderError = (error: Error): error is LoaderError => error instanceof LoaderError;
+
+export const formatCauseMessage = (error: Error, cwd: string) => {
+  let root: Error = error;
+  while (root.cause instanceof Error) root = root.cause;
+  return root.message.split('\n', 1)[0].replace(`${cwd}/`, '');
+};
+
+export const getKnownErrors = (error: Error) => {
+  if (isZodErrorLike(error))
+    return [...error.issues].map(error => {
+      let message = error.message;
+      const details = [];
+      if (error.path.length > 0) details.push(`location: ${error.path.join('.')}`);
+      // @ts-expect-error
+      if (typeof error.expected === 'string') details.push(`expected: ${error.expected}`);
+      // @ts-expect-error
+      if (Array.isArray(error.keys)) details.push(`${error.code}: ${error.keys.join(', ')}`);
+      if (details.length > 0) message += ` (${details.join(', ')})`;
+      return new Error(message);
+    });
+  return [error];
+};

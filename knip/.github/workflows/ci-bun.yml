@@ -1,0 +1,59 @@
+name: Tests (Bun)
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: &paths # All package sources (knip lints across the monorepo and analyzes the repo itself)
+      - 'packages/**'
+      - '!packages/docs/**/*.md'
+      - '!packages/docs/**/*.mdx'
+      # Root workspace / dependency / lint / knip-on-self config
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - '.oxlintrc.json'
+      - '.oxfmtrc.json'
+      - 'knip.json'
+      # This workflow file
+      - '.github/workflows/ci-bun.yml'
+  push:
+    branches:
+      - '**'
+    paths: *paths
+
+# Automatically cancel in-progress actions on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.2.22
+      - name: Install dependencies
+        run: bun install --ignore-scripts
+      - name: Build knip
+        run: bun run build
+        working-directory: packages/knip
+      - name: Run knip
+        run: ./packages/knip/bin/knip-bun.js
+      - name: Run knip (production/strict)
+        run: ./packages/knip/bin/knip-bun.js --production --strict
+      - name: Test knip
+        run: bun run test
+        working-directory: packages/knip

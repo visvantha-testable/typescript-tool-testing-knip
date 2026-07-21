@@ -1,0 +1,36 @@
+{
+  "name": "@knip/docs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Documentation for Knip, hosted at knip.dev",
+  "homepage": "https://knip.dev",
+  "repository": {
+    "type": "git",
+    "url": "github:webpro-nl/knip",
+    "directory": "packages/docs"
+  },
+  "type": "module",
+  "scripts": {
+    "prebuild": "node ./scripts/generate-plugin-docs.ts",
+    "build": "astro check && astro build",
+    "postbuild": "[ \"$CF_PAGES\" = \"1\" ] && find dist -mindepth 2 -type f -name 'index.html' -exec bash -c 'f=\"$1\"; d=$(dirname \"$f\"); bn=$(basename \"$d\"); mv -v \"$f\" \"$d/../$bn.html\"' _ {} \\; && find dist -mindepth 1 -type d -empty -print -delete || true",
+    "dev": "astro dev",
+    "remark": "remark README.md 'src/content/docs/**/*.md' --verbose -o && mdxlint 'src/content/docs/**/*.mdx' --verbose -o"
+  },
+  "dependencies": {
+    "@astro-community/astro-embed-youtube": "0.5.10",
+    "@astrojs/starlight": "0.41.3",
+    "sharp": "0.35.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "@astrojs/markdown-satteri": "0.3.3",
+    "@octokit/graphql": "^9.0.3",
+    "astro": "7.0.6",
+    "picocolors": "^1.1.1",
+    "satteri": "0.9.4"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

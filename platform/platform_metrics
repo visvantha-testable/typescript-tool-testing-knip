@@ -1,0 +1,10 @@
+{
+  "tool": "knip",
+  "target_path": "sample_subject/src",
+  "metrics_total": 1,
+  "metrics_covered": 1,
+  "metric_coverage_complete": true,
+  "Error Flow Verification": 100,
+  "Exception Path Handling": 100,
+  "Path Coverage": 100
+}

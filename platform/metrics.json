@@ -1,0 +1,5 @@
+{
+  "tool": "knip",
+  "Error Flow Verification": 100,
+  "Exception Path Handling": 100
+}

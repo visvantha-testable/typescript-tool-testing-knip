@@ -1,0 +1,64 @@
+---
+title: 'Become a sponsor!'
+description: Support ongoing Knip development through GitHub Sponsors or OpenCollective, with sponsorship history and teams that rely on Knip.
+template: splash
+---
+
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import Posts from '../../components/Posts.astro';
+import Projects from '../../components/Projects.astro';
+import SponsorsComponent from '../../components/Sponsors.astro';
+import SponsorsChart from '../../components/SponsorsChart.astro';
+
+:::article{.prose}
+
+Knip is a powerful tool that helps thousands of developers keep their JavaScript
+and TypeScript projects lean and maintainable. Knip saves teams valuable time
+and resources.
+
+Building and maintaining Knip has been, and remains, a lot of work. Supportive
+resources allow me to focus on maintenance and development of Knip, which is
+[relied upon][1] [by many][2] in the JavaScript community. Please consider
+supporting the project! The following platforms are available to support Knip:
+
+- [GitHub Sponsors][3]
+- [OpenCollective][4]
+
+You or your company logo with a backlink to your website will be added to this
+page if you decide to support the project on an ongoing basis. Eternal gratitude
+to the companies and people supporting the project!
+
+:::
+
+<SponsorsComponent showAll={true} />
+
+## Monthly Overview
+
+Overview of gross GitHub and OpenCollective sponsorships and invoices, starting
+from the moment the project openly asked for support. Actual development started
+one year before that.
+
+<SponsorsChart />
+
+- The monthly aggregated average over the charted period is $520.
+- The monthly recurring average without one-time payments is $362.
+- GitHub Sponsors is for my GitHub account. This has more repositories, but in
+  practice targets mostly Knip (and perhaps some [release-it][5]).
+- Chart generated using [Venz][6].
+
+## Trusted by the world's best software teams
+
+<section class="columns min300">
+  <Projects />
+</section>
+
+## Don't just take our word for it
+
+<Posts />
+
+[1]: #trusted-by-the-worlds-best-software-teams
+[2]: https://github.com/webpro-nl/knip/network/dependents
+[3]: https://github.com/sponsors/webpro
+[4]: https://opencollective.com/knip
+[5]: https://github.com/release-it/release-it
+[6]: https://try.venz.dev

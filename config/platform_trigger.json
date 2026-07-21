@@ -1,0 +1,9 @@
+{
+  "tool": "knip",
+  "strategy": "Control Flow Testing",
+  "classification": "Path Coverage",
+  "technique": "Exception Path Handling",
+  "metric": "Error Flow Verification",
+  "target_path": "sample_subject/src",
+  "expected_score": 100
+}

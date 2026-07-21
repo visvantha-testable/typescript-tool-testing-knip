@@ -1,0 +1,28 @@
+{
+  "name": "typescript-tool-testing-knip",
+  "version": "1.0.0",
+  "description": "Testable training repo: Error Flow Verification via knip",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "knip": "knip --reporter json",
+    "trigger": "tsx src/knipTrigger.ts",
+    "verify": "tsx src/verify/verifyCli.ts --json knip.json"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "knip": {
+    "entry": ["sample_subject/src/index.ts"],
+    "project": ["sample_subject/src/**/*.ts", "sample_subject/tests/**/*.ts"]
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@vitest/coverage-v8": "^2.1.0",
+    "knip": "^6.27.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0"
+  }
+}

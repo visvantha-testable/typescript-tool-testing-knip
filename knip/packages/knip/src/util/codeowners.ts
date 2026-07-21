@@ -1,0 +1,36 @@
+import { readFileSync } from 'node:fs';
+import picomatch from 'picomatch';
+import { debugLog } from './debug.ts';
+import { convertGitignoreToPicomatchIgnorePatterns, expandIgnorePatterns } from './parse-and-convert-gitignores.ts';
+
+/** @internal */
+export function parseCodeowners(content: string) {
+  const matchers = content
+    .split(/\r?\n/)
+    .filter(line => line && !line.startsWith('#'))
+    .map(rule => {
+      const [path, ...owners] = rule.split(/\s+/);
+      const { pattern } = convertGitignoreToPicomatchIgnorePatterns(path);
+      // CODEOWNERS `dir/*` is shallow: it owns direct files only, not nested subdirectories
+      return { owners, match: picomatch(expandIgnorePatterns([pattern], true)) };
+    });
+
+  return (filePath: string) => {
+    for (const matcher of [...matchers].reverse()) {
+      if (matcher.match(filePath)) {
+        return matcher.owners;
+      }
+    }
+    return [];
+  };
+}
+
+export function createOwnershipEngine(filePath: string) {
+  try {
+    const content = readFileSync(filePath, 'utf8');
+    return parseCodeowners(content);
+  } catch (error) {
+    debugLog('*', `Failed to load codeowners file from ${filePath}`);
+    throw error;
+  }
+}
