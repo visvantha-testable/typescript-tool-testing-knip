@@ -27,6 +27,8 @@ This repo vendors the official [knip](https://github.com/webpro-nl/knip) project
 
 ```bash
 npm install
+npm test
+npm run coverage
 npm run vitest:trigger
 npm run vitest:verify
 ```
@@ -43,6 +45,7 @@ Raw coverage artifacts are written to `artifacts/training/coverage/`:
 - `coverage-summary.json`
 - `coverage-final.json`
 - `lcov.info`
+- `taxonomy_metrics.json` (named taxonomy coverage report)
 - `index.html`
 
 ## Trigger with Knip

@@ -19,7 +19,7 @@
 | Field | Result |
 |-------|--------|
 | Supported | **Yes** |
-| Directly Emitted (Vitest raw JSON) | **Partial** — branch/statement coverage fields |
+| Directly Emitted (Vitest raw JSON) | **Yes** — `taxonomy_metrics.json` + branch coverage fields |
 | Derived (platform trigger) | **Yes** |
 | Primary Tools | knip, Vitest + @vitest/coverage-v8 |
 | Evidence | Platform trigger produces `vitest.json` or `knip.json` with Error Flow Verification = 100 |
@@ -59,8 +59,8 @@ TRIGGER COMPLETE: knip.json — Error Flow Verification 100/100=true
 
 1. **Control Flow Testing** — Vitest executes `sample_subject/tests/errorFlow.test.ts` at runtime
 2. **Path Coverage** — `@vitest/coverage-v8` emits branch coverage in `coverage-summary.json` (`total.branches.*`)
-3. **Exception Path Handling** — branch coverage on `sample_subject/src/errorFlow.ts` confirms exception-handling paths were exercised
-4. **Error Flow Verification** — derived score from 100% error-flow branch coverage + all tests passing
+3. **Exception Path Handling** — `taxonomy_metrics.json` reports 100% exception-path branch coverage across `errorFlow.ts`, `exceptionSync.ts`, and `exceptionAsync.ts`
+4. **Error Flow Verification** — named KPI field in `taxonomy_metrics.json` (100) derived from exception branch coverage + all tests passing
 5. **Platform output** — `vitest.json`, `vitest_metrics.json`, `platform_metrics.json`, `testable_dashboard.json`
 
 ## Knip tool execution flow
@@ -78,7 +78,7 @@ TRIGGER COMPLETE: knip.json — Error Flow Verification 100/100=true
 | `artifacts/training/coverage/coverage-summary.json` | Branch/statement/function/line totals |
 | `artifacts/training/coverage/coverage-final.json` | Per-file branch hit maps |
 | `artifacts/training/coverage/lcov.info` | LCOV report |
-| `artifacts/training/coverage/index.html` | HTML coverage report |
+| `artifacts/training/coverage/taxonomy_metrics.json` | Named taxonomy fields: Exception Path Handling, Error Flow Verification |
 
 ## knip subdirectory
 

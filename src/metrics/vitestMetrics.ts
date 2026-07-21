@@ -5,21 +5,34 @@ import type { CoverageSummary, ErrorFlowMetrics } from "../types/knipTypes.js";
 
 const TRY_CATCH_BLOCKS = 4;
 
-function findErrorFlowBranches(coverage: CoverageSummary): { total: number; covered: number } {
+const EXCEPTION_PATH_MARKERS = ["errorflow", "exceptionsync", "exceptionasync"];
+
+function findExceptionPathBranches(coverage: CoverageSummary): { total: number; covered: number; files: string[] } {
+  let total = 0;
+  let covered = 0;
+  const files: string[] = [];
   for (const [key, value] of Object.entries(coverage)) {
     if (key === "total" || typeof value !== "object" || value === null) continue;
-    if (key.toLowerCase().includes("errorflow") && "branches" in value) {
-      const branches = value.branches as { total?: number; covered?: number };
-      return {
-        total: branches.total ?? 0,
-        covered: branches.covered ?? 0,
-      };
-    }
+    if (!EXCEPTION_PATH_MARKERS.some((marker) => key.toLowerCase().includes(marker))) continue;
+    const branches = value.branches as { total?: number; covered?: number } | undefined;
+    if (!branches) continue;
+    files.push(key);
+    total += branches.total ?? 0;
+    covered += branches.covered ?? 0;
   }
-  return {
-    total: coverage.total?.branches?.total ?? 0,
-    covered: coverage.total?.branches?.covered ?? 0,
-  };
+  if (total === 0) {
+    return {
+      total: coverage.total?.branches?.total ?? 0,
+      covered: coverage.total?.branches?.covered ?? 0,
+      files,
+    };
+  }
+  return { total, covered, files };
+}
+
+function findErrorFlowBranches(coverage: CoverageSummary): { total: number; covered: number } {
+  const aggregate = findExceptionPathBranches(coverage);
+  return { total: aggregate.total, covered: aggregate.covered };
 }
 
 export function runVitestCoverage(root: string): CoverageSummary | null {

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "coverage": "vitest run --coverage",
+    "coverage": "vitest run --coverage && tsx src/coverage/coverageTaxonomyReport.ts",
     "vitest:trigger": "tsx src/vitestTrigger.ts",
     "vitest:verify": "tsx src/verify/verifyCli.ts --json vitest.json --tool vitest",
     "knip": "knip --reporter json",
