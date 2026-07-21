@@ -1,8 +1,17 @@
 export interface CoverageSummary {
   total?: {
-    branches?: { total: number; covered: number };
-    lines?: { total: number; covered: number };
+    branches?: { total: number; covered: number; pct?: number };
+    lines?: { total: number; covered: number; pct?: number };
+    statements?: { total: number; covered: number; pct?: number };
+    functions?: { total: number; covered: number; pct?: number };
   };
+  [filePath: string]:
+    | {
+        branches?: { total: number; covered: number; pct?: number };
+        lines?: { total: number; covered: number; pct?: number };
+      }
+    | CoverageSummary["total"]
+    | undefined;
 }
 
 export interface KnipIssueCounts {

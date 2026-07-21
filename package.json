@@ -6,6 +6,8 @@
   "scripts": {
     "test": "vitest run",
     "coverage": "vitest run --coverage",
+    "vitest:trigger": "tsx src/vitestTrigger.ts",
+    "vitest:verify": "tsx src/verify/verifyCli.ts --json vitest.json --tool vitest",
     "knip": "knip --reporter json",
     "trigger": "tsx src/knipTrigger.ts",
     "verify": "tsx src/verify/verifyCli.ts --json knip.json"

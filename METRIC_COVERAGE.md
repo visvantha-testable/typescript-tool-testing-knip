@@ -4,9 +4,9 @@
 
 | Level | Value |
 |-------|-------|
-| Testing Type | Control Flow Testing |
+| Technique | Control Flow Testing |
 | Classification | Path Coverage |
-| Technique | Exception Path Handling |
+| Metric | Exception Path Handling |
 | KPI | **Error Flow Verification** |
 | Definition | Measures the code ability to gracefully handle and recover from unexpected errors or try/catch blocks, ensuring the system does not crash when forced into a failure state |
 
@@ -19,13 +19,28 @@
 | Field | Result |
 |-------|--------|
 | Supported | **Yes** |
-| Directly Emitted | **No** |
-| Derived | **Yes** |
-| Primary Tool | knip |
-| Evidence | Platform trigger produces `knip.json` with Error Flow Verification = 100 |
+| Directly Emitted (Vitest raw JSON) | **Partial** — branch/statement coverage fields |
+| Derived (platform trigger) | **Yes** |
+| Primary Tools | knip, Vitest + @vitest/coverage-v8 |
+| Evidence | Platform trigger produces `vitest.json` or `knip.json` with Error Flow Verification = 100 |
 | Real-Time Alerting KPI | **PASS** |
 
-## How to trigger
+## How to trigger — Vitest + @vitest/coverage-v8
+
+```bash
+npm install
+npm run vitest:trigger
+npm run vitest:verify
+```
+
+Expected output:
+
+```
+OK: vitest.json verified — Error Flow Verification 100/100
+TRIGGER COMPLETE: vitest.json — Error Flow Verification 100/100=true
+```
+
+## How to trigger — Knip
 
 ```bash
 npm install
@@ -40,13 +55,30 @@ OK: knip.json verified — Error Flow Verification 100/100
 TRIGGER COMPLETE: knip.json — Error Flow Verification 100/100=true
 ```
 
-## Tool execution flow
+## Vitest tool execution flow
+
+1. **Control Flow Testing** — Vitest executes `sample_subject/tests/errorFlow.test.ts` at runtime
+2. **Path Coverage** — `@vitest/coverage-v8` emits branch coverage in `coverage-summary.json` (`total.branches.*`)
+3. **Exception Path Handling** — branch coverage on `sample_subject/src/errorFlow.ts` confirms exception-handling paths were exercised
+4. **Error Flow Verification** — derived score from 100% error-flow branch coverage + all tests passing
+5. **Platform output** — `vitest.json`, `vitest_metrics.json`, `platform_metrics.json`, `testable_dashboard.json`
+
+## Knip tool execution flow
 
 1. **Exception Path Handling** — `sample_subject/src/errorFlow.ts` implements try/catch recovery paths
 2. **Test execution** — Vitest runs with branch coverage; all exception paths exercised
 3. **knip analysis** — knip scans `sample_subject/` for unresolved/unused error-flow artifacts (0 issues required)
 4. **Error Flow Verification** — derived score from branch coverage + clean knip report
 5. **Platform output** — `knip.json`, `platform_metrics.json`, `testable_dashboard.json`
+
+## Raw runtime artifacts (Vitest)
+
+| Artifact | Purpose |
+|----------|---------|
+| `artifacts/training/coverage/coverage-summary.json` | Branch/statement/function/line totals |
+| `artifacts/training/coverage/coverage-final.json` | Per-file branch hit maps |
+| `artifacts/training/coverage/lcov.info` | LCOV report |
+| `artifacts/training/coverage/index.html` | HTML coverage report |
 
 ## knip subdirectory
 

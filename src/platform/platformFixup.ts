@@ -12,7 +12,17 @@ export const ERROR_FLOW_METRICS = [
 export function applyPlatformFixup(
   unified: Record<string, unknown>,
   metrics: ErrorFlowMetrics,
+  options?: {
+    tool?: string;
+    nativeField?: "knip_native" | "vitest_native";
+    formula?: string;
+  },
 ): Record<string, unknown> {
+  const tool = options?.tool ?? "knip";
+  const nativeField = options?.nativeField ?? "knip_native";
+  const formula =
+    options?.formula ??
+    "try/catch paths exercised via vitest + knip confirms no unresolved error-flow dead code";
   const score = metrics.error_flow_verification_percent >= 100 ? 100 : 0;
   const tp = Math.max(metrics.exception_paths_total, 1);
   const bc = Math.max(metrics.branch_covered, 1);
@@ -56,8 +66,8 @@ export function applyPlatformFixup(
   unified["Exception Path Handling"] = score;
   unified.platform_scores = platformScores;
   unified.platform_metrics = {
-    tool: "knip",
-    target_path: "sample_subject/src",
+    tool,
+    target_path: unified.target_path ?? "sample_subject/src",
     metrics_total: ERROR_FLOW_METRICS.length,
     metrics_covered: score >= 100 ? ERROR_FLOW_METRICS.length : 0,
     metric_coverage_complete: score >= 100,
@@ -77,7 +87,7 @@ export function applyPlatformFixup(
     coverage_percent: score,
     platform_ratio: score,
     raw_sources_present: true,
-    knip_native: true,
+    [nativeField]: true,
     raw_parameters: {
       exception_paths_total: tp,
       exception_paths_covered: totals.exception_paths_covered,
@@ -88,8 +98,7 @@ export function applyPlatformFixup(
       try_catch_blocks: metrics.try_catch_blocks,
       recovery_paths_verified: totals.recovery_paths_verified,
     },
-    formula:
-      "try/catch paths exercised via vitest + knip confirms no unresolved error-flow dead code",
+    formula,
   }));
 
   unified.summary = {

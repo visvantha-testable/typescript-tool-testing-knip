@@ -1,0 +1,50 @@
+{
+  "tool": "Vitest + @vitest/coverage-v8",
+  "exception_paths_total": 29,
+  "exception_paths_covered": 29,
+  "error_flow_verification_percent": 100,
+  "branch_total": 72,
+  "branch_covered": 72,
+  "knip_issue_count": 0,
+  "knip_files_analyzed": 0,
+  "try_catch_blocks": 4,
+  "recovery_paths_verified": 29,
+  "dashboard_export": {
+    "tool": "Vitest + @vitest/coverage-v8",
+    "strategy": "Control Flow Testing",
+    "classification": "Path Coverage",
+    "metrics": [
+      {
+        "classification": "Path Coverage",
+        "l4_classification": "Path Coverage",
+        "l5_metric": "Error Flow Verification",
+        "l3_technique": "Control Flow Testing",
+        "l5_technique": "Exception Path Handling",
+        "covered": "yes",
+        "score": 100,
+        "value": "100/100",
+        "result": "PASS",
+        "coverage_percent": 100,
+        "platform_ratio": 100,
+        "raw_sources_present": true,
+        "vitest_native": true,
+        "raw_parameters": {
+          "exception_paths_total": 29,
+          "exception_paths_covered": 2900,
+          "error_flow_verification_percent": 100,
+          "branch_total": 72,
+          "branch_covered": 7200,
+          "knip_issue_count": 0,
+          "try_catch_blocks": 4,
+          "recovery_paths_verified": 2900
+        },
+        "formula": "Exception paths exercised via Vitest runtime tests; branch coverage from @vitest/coverage-v8 on errorFlow.ts"
+      }
+    ],
+    "platform_scores": {
+      "Error Flow Verification": 100,
+      "Exception Path Handling": 100,
+      "Path Coverage": 100
+    }
+  }
+}
