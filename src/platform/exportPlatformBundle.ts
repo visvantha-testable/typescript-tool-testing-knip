@@ -32,7 +32,7 @@ export function exportPlatformBundle(
       "Error Flow Verification": fixed["Error Flow Verification"],
       "Exception Path Handling": fixed["Exception Path Handling"],
     },
-    platform_metrics: fixed.platform_metrics,
+    "platform_metrics.json": fixed.platform_metrics,
     "testable_dashboard.json": dashboard,
   };
 
